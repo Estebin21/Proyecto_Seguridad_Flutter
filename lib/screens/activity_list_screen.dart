@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/activities.dart';
 import 'activity_view_screen.dart';
+import 'congrats_screen.dart';
 
 class ActivityListScreen extends StatefulWidget {
   final int group;
@@ -40,8 +41,19 @@ class _ActivityListScreenState extends State<ActivityListScreen> {
                           onComplete: () {
                             setState(() {
                               activity.isCompleted = true;
+
+                              final allCompleted = activities.every((a) => a.isCompleted);
+                              if (allCompleted) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const CongratsScreen(),
+                                  ),
+                                );
+                              } else {
+                                Navigator.pop(context);
+                              }
                             });
-                            Navigator.pop(context);
                           },
                         ),
                       ),

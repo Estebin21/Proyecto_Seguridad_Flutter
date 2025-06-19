@@ -37,17 +37,17 @@ List<List<Activity>> activityGroups = [
       order: 1,
     ),
     Activity(
-      title: "Video sobre phishing",
-      description: "Aprende a detectar correos sospechosos.",
+      title: "10 consejos",
+      description: "Guiate mediante este video sobre 10 consejos de internet",
       contentType: "video",
-      contentPath: "assets/videos/phishing_adultos.mp4",
+      contentPath: "assets/videos/actividad_12.mp4",
       order: 2,
     ),
     Activity(
-      title: "Presentación de buenas prácticas",
-      description: "PDF con normas de uso seguro de redes sociales.",
+      title: "Guia de seguridad",
+      description: "PDF con seguridad recomendada de la UNICEF",
       contentType: "presentation",
-      contentPath: "assets/presentations/buenas_practicas.pdf",
+      contentPath: "assets/presentations/actividad_13.pdf",
       order: 3,
     ),
     // Agrega más hasta completar 10
