@@ -64,8 +64,41 @@ List<List<Activity>> activityGroups = [
       contentPath: "",
       order: 5,
 ),
-
-
+    Activity(
+      title: "El ciberacoso",
+      description: "Infografia acerca del ciberacoso",
+      contentType: "image",
+      contentPath: "assets/images/actividad_16.jpg",
+      order: 6,
+    ),
+    Activity(
+      title: "5 consejos",
+      description: "Guiate mediante este video sobre 5 del ciberacoso",
+      contentType: "video",
+      contentPath: "assets/videos/actividad_17.mp4",
+      order: 7,
+    ),
+    Activity(
+      title: "Explicacion sobre ciberacoso",
+      description: "PDF con informacion acerca del ciberacoso",
+      contentType: "presentation",
+      contentPath: "assets/presentations/actividad_18.pdf",
+      order: 8,
+    ),
+    Activity(
+      title: "Arrastra las palabras",
+      description: "Ubica correctamente cada palabra clave",
+      contentType: "drag",
+      contentPath: "",
+      order: 9,
+    ),
+    Activity(
+      title: "Actividad de Verdadero o Falso",
+      description: "Responde si las afirmaciones son verdaderas o falsas.",
+      contentType: "truefalse", // ✅ minúscula para que coincida
+      contentPath: "",
+      order: 10,
+),
     // Agrega más hasta completar 10
   ],
 

@@ -18,7 +18,9 @@ class _ActivityListScreenState extends State<ActivityListScreen> {
     final activities = activityGroups[widget.group];
 
     return Scaffold(
-      appBar: AppBar(title: Text("Actividades del Grupo ${widget.group + 1}")),
+      appBar: AppBar(
+        title: Text("Actividades del Grupo ${widget.group + 1}"),
+      ),
       body: ListView.builder(
         itemCount: activities.length,
         itemBuilder: (context, index) {
@@ -28,9 +30,11 @@ class _ActivityListScreenState extends State<ActivityListScreen> {
           return ListTile(
             title: Text(activity.title),
             subtitle: Text(activity.description),
-            trailing: Icon(enabled
-                ? (activity.isCompleted ? Icons.check_circle : Icons.lock_open)
-                : Icons.lock),
+            trailing: Icon(
+              enabled
+                  ? (activity.isCompleted ? Icons.check_circle : Icons.lock_open)
+                  : Icons.lock,
+            ),
             onTap: enabled
                 ? () {
                     Navigator.push(
@@ -42,7 +46,9 @@ class _ActivityListScreenState extends State<ActivityListScreen> {
                             setState(() {
                               activity.isCompleted = true;
 
-                              final allCompleted = activities.every((a) => a.isCompleted);
+                              final allCompleted =
+                                  activities.every((a) => a.isCompleted);
+
                               if (allCompleted) {
                                 Navigator.pushReplacement(
                                   context,

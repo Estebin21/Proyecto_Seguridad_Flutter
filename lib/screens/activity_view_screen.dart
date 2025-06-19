@@ -1,133 +1,103 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:video_player/video_player.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 
-import '../models/activity.dart';
-import 'drag_activity_widget.dart';
-import 'true_false_activity_widget.dart';
-
-
-class ActivityViewScreen extends StatefulWidget {
-  final Activity activity;
+class TrueFalseActivityWidget extends StatefulWidget {
   final VoidCallback onComplete;
+  final List<Question> questions;
 
-  const ActivityViewScreen({
+  const TrueFalseActivityWidget({
     super.key,
-    required this.activity,
     required this.onComplete,
+    required this.questions,
   });
 
   @override
-  State<ActivityViewScreen> createState() => _ActivityViewScreenState();
+  State<TrueFalseActivityWidget> createState() => _TrueFalseActivityWidgetState();
 }
 
-class _ActivityViewScreenState extends State<ActivityViewScreen> {
-  VideoPlayerController? _videoController;
-  String? _localPdfPath;
+class _TrueFalseActivityWidgetState extends State<TrueFalseActivityWidget> {
+  int _current = 0;
+  bool _answered = false;
+  bool _isCorrect = false;
 
-  @override
-  void initState() {
-    super.initState();
-
-    if (widget.activity.contentType == "video") {
-      _videoController = VideoPlayerController.asset(widget.activity.contentPath)
-        ..initialize().then((_) => setState(() {}));
-    } else if (widget.activity.contentType == "presentation") {
-      _loadPdfFromAssets(widget.activity.contentPath);
-    }
-  }
-
-  Future<void> _loadPdfFromAssets(String assetPath) async {
-    final byteData = await rootBundle.load(assetPath);
-    final tempDir = await getTemporaryDirectory();
-    final tempFile = File('${tempDir.path}/temp.pdf');
-    await tempFile.writeAsBytes(byteData.buffer.asUint8List(), flush: true);
+  void _answer(bool value) {
     setState(() {
-      _localPdfPath = tempFile.path;
+      _answered = true;
+      _isCorrect = value == widget.questions[_current].answer;
+    });
+
+    Future.delayed(const Duration(seconds: 1), () {
+      if (!mounted) return;
+
+      if (_current < widget.questions.length - 1) {
+        setState(() {
+          _current++;
+          _answered = false;
+        });
+      } else {
+        widget.onComplete();
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text("¡Felicidades!"),
+            content: const Text("Has completado todas las preguntas de verdadero o falso."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: const Text("Cerrar"),
+              ),
+            ],
+          ),
+        );
+      }
     });
   }
 
   @override
-  void dispose() {
-    _videoController?.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final activity = widget.activity;
+    final question = widget.questions[_current];
 
-    return Scaffold(
-      appBar: AppBar(title: Text(activity.title)),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Text(activity.description),
-            const SizedBox(height: 20),
-            Expanded(
-              child: Builder(
-                builder: (context) {
-                  switch (activity.contentType) {
-                    case "image":
-                      return Image.asset(activity.contentPath);
-                    case "video":
-                      if (_videoController?.value.isInitialized ?? false) {
-                        return AspectRatio(
-                          aspectRatio: _videoController!.value.aspectRatio,
-                          child: VideoPlayer(_videoController!),
-                        );
-                      } else {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                    case "presentation":
-                      if (_localPdfPath != null) {
-                        return PDFView(
-                          filePath: _localPdfPath!,
-                          enableSwipe: true,
-                          swipeHorizontal: false,
-                          autoSpacing: false,
-                          pageSnap: true,
-                        );
-                      } else {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                    case "drag":
-                      return DragActivityWidget(onComplete: widget.onComplete);
-                    case "truefalse":
-                      return TrueFalseActivityWidget(onComplete: widget.onComplete);
-                    default:
-                      return const Text("Tipo de contenido no soportado.");
-                  }
-                },
-              ),
-            ),
-            if (activity.contentType != "drag")
-              ElevatedButton(
-                onPressed: widget.onComplete,
-                child: const Text("Marcar como completado"),
-              ),
-          ],
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          question.text,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
         ),
-      ),
-      floatingActionButton: activity.contentType == "video" && _videoController != null
-          ? FloatingActionButton(
-              onPressed: () {
-                setState(() {
-                  _videoController!.value.isPlaying
-                      ? _videoController!.pause()
-                      : _videoController!.play();
-                });
-              },
-              child: Icon(
-                _videoController!.value.isPlaying ? Icons.pause : Icons.play_arrow,
+        const SizedBox(height: 20),
+        if (!_answered)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () => _answer(true),
+                child: const Text("Verdadero"),
               ),
-            )
-          : null,
+              const SizedBox(width: 20),
+              ElevatedButton(
+                onPressed: () => _answer(false),
+                child: const Text("Falso"),
+              ),
+            ],
+          )
+        else
+          Icon(
+            _isCorrect ? Icons.check_circle : Icons.cancel,
+            color: _isCorrect ? Colors.green : Colors.red,
+            size: 60,
+          ),
+      ],
     );
   }
+}
+
+class Question {
+  final String text;
+  final bool answer;
+
+  Question({required this.text, required this.answer});
 }
