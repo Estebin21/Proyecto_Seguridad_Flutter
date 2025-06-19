@@ -2,53 +2,25 @@ import 'package:flutter/material.dart';
 
 class DragActivityWidget extends StatefulWidget {
   final VoidCallback onComplete;
+  final Map<String, String> pairs;
 
-  const DragActivityWidget({super.key, required this.onComplete});
+  const DragActivityWidget({
+    super.key,
+    required this.onComplete,
+    required this.pairs,
+  });
 
   @override
   State<DragActivityWidget> createState() => _DragActivityWidgetState();
 }
 
 class _DragActivityWidgetState extends State<DragActivityWidget> {
-  final Map<String, String> pairs = {
-    "Phishing": "Correo falso",
-    "Contraseña": "Clave segura",
-    "Virus": "Malware",
-  };
-
-  final Map<String, bool> matched = {};
+  late final Map<String, String?> answers;
 
   @override
   void initState() {
     super.initState();
-    for (var key in pairs.keys) {
-      matched[key] = false;
-    }
-  }
-
-  void _checkCompletion() {
-    if (matched.values.every((e) => e)) {
-  // Mostrar el diálogo antes de llamar a onComplete
-  if (mounted) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text("¡Felicidades!"),
-        content: const Text("Completaste correctamente la actividad de arrastrar palabras."),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);     // Cerrar el diálogo
-              widget.onComplete();        // Luego marcar como completado
-            },
-            child: const Text("Cerrar"),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
+    answers = {for (var key in widget.pairs.keys) key: null};
   }
 
   @override
@@ -64,13 +36,14 @@ class _DragActivityWidgetState extends State<DragActivityWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              // Palabras
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: pairs.keys.map((word) {
+                children: widget.pairs.keys.map((word) {
+                  if (answers[word] == word) return const SizedBox(height: 40);
                   return Draggable<String>(
                     data: word,
                     feedback: Material(
+                      color: Colors.transparent,
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         color: Colors.blue,
@@ -78,41 +51,69 @@ class _DragActivityWidgetState extends State<DragActivityWidget> {
                       ),
                     ),
                     childWhenDragging: const SizedBox(height: 40),
-                    child: matched[word] == true
-                        ? const SizedBox(height: 40)
-                        : Container(
-                            margin: const EdgeInsets.all(8),
-                            padding: const EdgeInsets.all(8),
-                            color: Colors.blueAccent,
-                            child: Text(word, style: const TextStyle(color: Colors.white)),
-                          ),
+                    child: Container(
+                      margin: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
+                      color: Colors.blueAccent,
+                      child: Text(word, style: const TextStyle(color: Colors.white)),
+                    ),
                   );
                 }).toList(),
               ),
-              // Recuadros
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: pairs.entries.map((entry) {
+                children: widget.pairs.entries.map((entry) {
+                  final key = entry.key;
+                  final expected = entry.value;
+                  final received = answers[key];
+                  final isCorrect = received == key;
+
                   return DragTarget<String>(
                     builder: (context, candidateData, rejectedData) {
                       return Container(
                         height: 60,
-                        width: 180,
+                        width: 160,
                         margin: const EdgeInsets.all(8),
-                        color: matched[entry.key]! ? Colors.green[200] : Colors.grey[300],
+                        decoration: BoxDecoration(
+                          color: isCorrect ? Colors.green[200] : Colors.grey[300],
+                          border: Border.all(color: Colors.black),
+                        ),
                         alignment: Alignment.center,
                         child: Text(
-                          matched[entry.key]! ? entry.key : entry.value,
-                          style: const TextStyle(fontSize: 16),
+                          expected,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       );
                     },
-                    onWillAccept: (data) => data == entry.key,
                     onAccept: (data) {
                       setState(() {
-                        matched[entry.key] = true;
+                        answers[key] = data;
+
+                        final allCorrect = widget.pairs.keys.every((k) => answers[k] == k);
+                        if (allCorrect) {
+                          Future.delayed(const Duration(milliseconds: 300), () {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (_) => AlertDialog(
+                                title: const Text("¡Felicidades!"),
+                                content: const Text("Completaste correctamente la actividad de arrastrar palabras."),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Future.delayed(const Duration(milliseconds: 100), () {
+                                        widget.onComplete();
+                                      });
+                                    },
+                                    child: const Text("Cerrar"),
+                                  )
+                                ],
+                              ),
+                            );
+                          });
+                        }
                       });
-                      _checkCompletion();
                     },
                   );
                 }).toList(),

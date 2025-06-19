@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 
 class TrueFalseActivityWidget extends StatefulWidget {
   final VoidCallback onComplete;
+  final List<Question> questions;
 
-  const TrueFalseActivityWidget({super.key, required this.onComplete});
+  const TrueFalseActivityWidget({
+    super.key,
+    required this.onComplete,
+    required this.questions,
+  });
 
   @override
   State<TrueFalseActivityWidget> createState() => _TrueFalseActivityWidgetState();
 }
 
 class _TrueFalseActivityWidgetState extends State<TrueFalseActivityWidget> {
-  final List<_Question> _questions = [
-    _Question(text: "Nunca debes compartir tus contraseñas.", answer: true),
-    _Question(text: "Es seguro aceptar archivos de desconocidos.", answer: false),
-    _Question(text: "Usar redes públicas para ingresar al banco es recomendable.", answer: false),
-  ];
-
   int _current = 0;
   bool _answered = false;
   bool _isCorrect = false;
@@ -23,17 +22,18 @@ class _TrueFalseActivityWidgetState extends State<TrueFalseActivityWidget> {
   void _answer(bool value) {
     setState(() {
       _answered = true;
-      _isCorrect = value == _questions[_current].answer;
+      _isCorrect = value == widget.questions[_current].answer;
     });
 
     Future.delayed(const Duration(seconds: 1), () {
-      if (_current < _questions.length - 1) {
+      if (!mounted) return;
+
+      if (_current < widget.questions.length - 1) {
         setState(() {
           _current++;
           _answered = false;
         });
       } else {
-        // Mostrar diálogo de felicitación SOLO cuando finaliza
         showDialog(
           context: context,
           barrierDismissible: false,
@@ -43,8 +43,10 @@ class _TrueFalseActivityWidgetState extends State<TrueFalseActivityWidget> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Cierra el diálogo
-                  widget.onComplete();         // Marca la actividad como completada
+                  Navigator.of(context).pop();
+                  Future.delayed(const Duration(milliseconds: 100), () {
+                    widget.onComplete();
+                  });
                 },
                 child: const Text("Cerrar"),
               ),
@@ -57,7 +59,7 @@ class _TrueFalseActivityWidgetState extends State<TrueFalseActivityWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final question = _questions[_current];
+    final question = widget.questions[_current];
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -94,9 +96,9 @@ class _TrueFalseActivityWidgetState extends State<TrueFalseActivityWidget> {
   }
 }
 
-class _Question {
+class Question {
   final String text;
   final bool answer;
 
-  _Question({required this.text, required this.answer});
+  Question({required this.text, required this.answer});
 }

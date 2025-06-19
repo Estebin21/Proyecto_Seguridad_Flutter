@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import '../data/activities.dart';
-import 'activity_view_screen.dart';
 import 'congrats_screen.dart';
+import 'activity_view_screen.dart';
+
+
+
 
 class ActivityListScreen extends StatefulWidget {
   final int group;
