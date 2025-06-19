@@ -50,6 +50,22 @@ List<List<Activity>> activityGroups = [
       contentPath: "assets/presentations/actividad_13.pdf",
       order: 3,
     ),
+    Activity(
+      title: "Arrastra las palabras",
+      description: "Ubica correctamente cada palabra clave",
+      contentType: "drag",
+      contentPath: "",
+      order: 4,
+    ),
+    Activity(
+      title: "Actividad de Verdadero o Falso",
+      description: "Responde si las afirmaciones son verdaderas o falsas.",
+      contentType: "truefalse", // ✅ minúscula para que coincida
+      contentPath: "",
+      order: 5,
+),
+
+
     // Agrega más hasta completar 10
   ],
 

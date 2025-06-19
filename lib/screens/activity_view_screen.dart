@@ -7,6 +7,9 @@ import 'package:video_player/video_player.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 import '../models/activity.dart';
+import 'drag_activity_widget.dart';
+import 'true_false_activity_widget.dart';
+
 
 class ActivityViewScreen extends StatefulWidget {
   final Activity activity;
@@ -93,16 +96,21 @@ class _ActivityViewScreenState extends State<ActivityViewScreen> {
                       } else {
                         return const Center(child: CircularProgressIndicator());
                       }
+                    case "drag":
+                      return DragActivityWidget(onComplete: widget.onComplete);
+                    case "truefalse":
+                      return TrueFalseActivityWidget(onComplete: widget.onComplete);
                     default:
                       return const Text("Tipo de contenido no soportado.");
                   }
                 },
               ),
             ),
-            ElevatedButton(
-              onPressed: widget.onComplete,
-              child: const Text("Marcar como completado"),
-            ),
+            if (activity.contentType != "drag")
+              ElevatedButton(
+                onPressed: widget.onComplete,
+                child: const Text("Marcar como completado"),
+              ),
           ],
         ),
       ),
