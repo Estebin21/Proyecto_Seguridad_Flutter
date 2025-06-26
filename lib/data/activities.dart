@@ -1,0 +1,225 @@
+import '../models/activity.dart';
+
+List<List<Activity>> activityGroups = [
+  // Grupo 1: Entre 8 y 11 años
+  [
+    Activity(
+      title: "No compartas contraseñas en línea nunca",
+      description: "Lee el siguiente mensaje sobre no compartir tu contraseña con extraños.",
+      contentType: "image",
+      contentPath: "assets/images/actividad_1.png",
+      order: 1,
+    ),
+    Activity(
+      title: "Aprende con este video animado",
+      description: "Mira el siguiente video educativo sobre seguridad básica.",
+      contentType: "video",
+      contentPath: "assets/videos/actividad_2.mp4",
+      order: 2,
+    ),
+    Activity(
+      title: "Infografía sobre navegación segura",
+      description: "Lee la siguiente infografía sobre navegación segura.",
+      contentType: "image",
+      contentPath: "assets/images/navegacion_segura.png",
+      order: 3,
+    ),
+    Activity(
+      title: "Juego interactivo: Navega Seguro",
+      description: "Arrastra cada acción a la categoría correcta para mantenerte seguro en internet.",
+      contentType: "drag",
+      contentPath: "",
+      order: 4,
+    ),
+    Activity(
+      title: "Pasos para una contraseña segura",
+      description: "Lee los siguientes pasos para una contraseña segura.",
+      contentType: "image",
+      contentPath: "assets/images/contrasenasegura.png",  // Imágenes fáciles de entender
+      order: 5,
+    ),
+    Activity(
+      title: "Juega con la dificultad de cada contraseña",
+      description: "Arrastra y suelta cada contraseña según su dificultad.",
+      contentType: "drag",
+      contentPath: "",
+      order: 6,
+    ),
+    Activity(
+      title: "El ciberacoso: ¿Qué es y cómo evitarlo?",
+      description: "Lee la siguiente infografía que te enseña qué es el ciberacoso y cómo prevenirlo.",
+      contentType: "image",
+      contentPath: "assets/images/ciberacoso.png",  // Colorida y explicativa
+      order: 7,
+    ),
+    Activity(
+      title: "Detén al Monstruo del Ciberacoso",
+      description: "Tú eres un superhéroe de internet. Lee las frases y escoge si son verdaderas o falsas.",
+      contentType: "truefalse",
+      contentPath: "",
+      order: 8,
+    ),
+    Activity(
+      title: "¿Sabes qué es el phishing?",
+      description: "Lee la siguiente infografía sobre el phishing",
+      contentType: "image",
+      contentPath: "assets/images/phishing.png",
+      order: 9,
+    ),
+    Activity(
+      title: "¡Atrapa al Pescador Falso!",
+      description: "¡Cuidado, navegante! En este juego aprenderás a reconocer a los pescadores falsos (phishers) que quieren engañarte en internet. Responde si cada frase es verdadera o falsa.",
+      contentType: "truefalse",
+      contentPath: "",
+      order: 10,
+    ),
+  ],
+
+  // Grupo 2: Entre 12 y 18 años
+  [
+    Activity(
+      title: "Protección de tu identidad en redes",
+      description: "Infografía explicativa.",
+      contentType: "image",
+      contentPath: "assets/images/actividad_11.jpg",
+      order: 1,
+    ),
+    Activity(
+      title: "10 consejos",
+      description: "Guiate mediante este video sobre 10 consejos de internet",
+      contentType: "video",
+      contentPath: "assets/videos/actividad_12.mp4",
+      order: 2,
+    ),
+    Activity(
+      title: "Guía de seguridad",
+      description: "PDF con seguridad recomendada de la UNICEF",
+      contentType: "presentation",
+      contentPath: "assets/presentations/actividad_13.pdf",
+      order: 3,
+    ),
+    Activity(
+      title: "Arrastra las palabras 1",
+      description: "Ubica correctamente cada palabra clave",
+      contentType: "drag",
+      contentPath: "",
+      order: 4,
+    ),
+    Activity(
+      title: "Actividad de Verdadero o Falso 1",
+      description: "Responde si las afirmaciones son verdaderas o falsas.",
+      contentType: "truefalse",
+      contentPath: "",
+      order: 5,
+    ),
+    Activity(
+      title: "El ciberacoso",
+      description: "Infografía acerca del ciberacoso",
+      contentType: "image",
+      contentPath: "assets/images/actividad_16.jpg",
+      order: 6,
+    ),
+    Activity(
+      title: "5 consejos",
+      description: "Guíate mediante este video sobre 5 del ciberacoso",
+      contentType: "video",
+      contentPath: "assets/videos/actividad_17.mp4",
+      order: 7,
+    ),
+    Activity(
+      title: "Explicación sobre ciberacoso",
+      description: "PDF con información acerca del ciberacoso",
+      contentType: "presentation",
+      contentPath: "assets/presentations/actividad_18.pdf",
+      order: 8,
+    ),
+    Activity(
+      title: "Arrastra las palabras 2",
+      description: "Ubica correctamente cada palabra clave",
+      contentType: "drag",
+      contentPath: "",
+      order: 9,
+    ),
+    Activity(
+      title: "Actividad de Verdadero o Falso 2",
+      description: "Responde si las afirmaciones son verdaderas o falsas.",
+      contentType: "truefalse",
+      contentPath: "",
+      order: 10,
+    ),
+  ],
+
+  // Grupo 3: Mayores de 65 años
+  [
+    Activity(
+      title: "Cuidado con las estafas telefónicas",
+      description: "Imagen ilustrativa para identificar fraudes.",
+      contentType: "image",
+      contentPath: "assets/images/actividad_21.jpg",
+      order: 1,
+    ),
+    Activity(
+      title: "Video guía sobre WhatsApp seguro",
+      description: "Cómo protegerse en apps de mensajería.",
+      contentType: "video",
+      contentPath: "assets/videos/whatsapp_seguro.mp4",
+      order: 2,
+    ),
+    Activity(
+      title: "Presentación sobre contraseñas fuertes",
+      description: "PDF educativo sobre buenas prácticas.",
+      contentType: "presentation",
+      contentPath: "assets/presentations/contraseñas_fuertes.pdf",
+      order: 3,
+    ),
+    Activity(
+      title: "Cómo evitar fraudes en línea",
+      description: "Infografía sobre cómo evitar fraudes en línea.",
+      contentType: "image",
+      contentPath: "assets/images/actividad_22.jpg",
+      order: 4,
+    ),
+    Activity(
+      title: "Seguridad en el uso de correo electrónico",
+      description: "Consejos sobre cómo proteger tu correo electrónico.",
+      contentType: "video",
+      contentPath: "assets/videos/actividad_23.mp4",
+      order: 5,
+    ),
+    Activity(
+      title: "Precauciones con el Wi-Fi público",
+      description: "Infografía sobre cómo usar Wi-Fi público de forma segura.",
+      contentType: "presentation",
+      contentPath: "assets/presentations/actividad_24.pdf",
+      order: 6,
+    ),
+    Activity(
+      title: "Cómo identificar correos fraudulentos",
+      description: "Infografía para reconocer correos fraudulentos.",
+      contentType: "image",
+      contentPath: "assets/images/actividad_25.jpg",
+      order: 7,
+    ),
+    Activity(
+      title: "Video: Evita caer en estafas online",
+      description: "Aprende a identificar y evitar estafas online.",
+      contentType: "video",
+      contentPath: "assets/videos/actividad_26.mp4",
+      order: 8,
+    ),
+    Activity(
+      title: "Cuida tu información personal",
+      description: "Presentación sobre cómo proteger tu información personal.",
+      contentType: "presentation",
+      contentPath: "assets/presentations/actividad_27.pdf",
+      order: 9,
+    ),
+    Activity(
+      title: "Quiz sobre seguridad en línea",
+      description: "Responde preguntas sobre lo que has aprendido.",
+      contentType: "truefalse",
+      contentPath: "",
+      order: 10,
+    ),
+  ],
+];
