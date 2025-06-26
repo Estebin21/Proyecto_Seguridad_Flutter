@@ -25,17 +25,19 @@ class _DragActivityWidgetState extends State<DragActivityWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text(
-          "Arrastra cada palabra a su definición correcta.",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 20),
-        Expanded(
-          child: Row(
+    return SingleChildScrollView(  // Hacer que la pantalla sea desplazable
+      child: Column(
+        children: [
+          const Text(
+            "Arrastra cada palabra a su definición correcta.",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 20),
+          // Usar Column y Expanded para evitar overflow y distribuir el contenido
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              // Columna para las palabras a arrastrar
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: widget.pairs.keys.map((word) {
@@ -60,6 +62,7 @@ class _DragActivityWidgetState extends State<DragActivityWidget> {
                   );
                 }).toList(),
               ),
+              // Columna para los objetivos donde soltar las palabras
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: widget.pairs.entries.map((entry) {
@@ -89,6 +92,7 @@ class _DragActivityWidgetState extends State<DragActivityWidget> {
                       setState(() {
                         answers[key] = data;
 
+                        // Verificar si todas las respuestas son correctas
                         final allCorrect = widget.pairs.keys.every((k) => answers[k] == k);
                         if (allCorrect) {
                           Future.delayed(const Duration(milliseconds: 300), () {
@@ -120,8 +124,8 @@ class _DragActivityWidgetState extends State<DragActivityWidget> {
               ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

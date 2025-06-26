@@ -138,6 +138,16 @@ class _ActivityViewScreenState extends State<ActivityViewScreen> {
                             "Antivirus": "Software de seguridad",
                           },
                         );
+                      } else if (activity.title == "Cómo identificar correos fraudulentos") {
+                        return DragActivityWidget(
+                          onComplete: widget.onComplete,
+                          pairs: {
+                            "Dirección del remitente sospechosa": "Parece legítima pero con errores sutiles",
+                            "Errores ortográficos y gramaticales": "Indican baja calidad en la redacción; poco común en empresas legítimas",
+                            "Solicitudes de información personal urgente": "Intimidan con consecuencias para que compartas datos sensibles",
+                            "Archivos adjuntos o enlaces sospechosos":"Pueden contener virus o dirigirte a sitios falsos",
+                          },
+                        );
                       }
                     break;
 
@@ -177,6 +187,23 @@ class _ActivityViewScreenState extends State<ActivityViewScreen> {
                             Question(text: "Si un mensaje se ve raro, no debes hacer clic en los enlaces.", answer: true),
                             Question(text: "Está bien abrir archivos de personas que no conoces.", answer: false),
                             Question(text: "A veces los correos falsos se ven como si fueran de verdad.", answer: true),
+                          ],
+                        );
+                      }
+                      else if (activity.title == "Quiz sobre seguridad en línea") {
+                        return TrueFalseActivityWidget(
+                          onComplete: widget.onComplete,
+                          questions: [
+                            Question(text: "Las estafas telefónicas suelen ofrecer problemas urgentes para que tomes decisiones apresuradas.", answer: true),
+                            Question(text: "Es seguro compartir tu contraseña con amigos a través de WhatsApp.", answer: false),
+                            Question(text: "Una contraseña segura debe tener al menos 12 caracteres combinando letras, números y símbolos.", answer: true),
+                            Question(text: "Es seguro hacer clic en enlaces en correos electrónicos de fuentes desconocidas si se ve confiable.", answer: false),
+                            Question(text: "Usar Wi-Fi público para acceder a cuentas bancarias es seguro en cualquier casos.", answer: false),
+                            Question(text: "Una VPN puede proteger tu información al usar Wi-Fi público, creando una conexión segura.", answer: true),
+                            Question(text: "Si recibes un correo sospechoso, siempre es seguro abrir los archivos adjuntos para ver qué contienen.", answer: false),
+                            Question(text: "Siempre que la dirección de correo electrónico se vea legítima, puedes confiar en los mensajes de marketing.", answer: false),
+                            Question(text: "Si tu cuenta de correo es hackeada, lo primero que debes hacer es cambiar tu contraseña y avisar a tus contactos.", answer: true),
+                            Question(text: "Es recomendable usar la misma contraseña para todas tus cuentas en línea para no olvidarlas.", answer: false),
                           ],
                         );
                       }
